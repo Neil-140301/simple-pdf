@@ -6,19 +6,23 @@ services:
     environment:
       - POSTGRES_PASSWORD=pdf-db
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - db-data:/var/lib/postgresql/data
   backend:
     build: ./backend
     ports:
-      - "8080:3000"
+      - '8080:3000'
     depends_on:
       - db
     environment:
       - DATABASE_URL=postgresql://postgres:pdf-db@db:5432
-
+  client:
+    build: ./client
+    depends_on:
+      - backend
+    ports:
+      - '3000:3000'
 
 volumes:
   db-data:
-
